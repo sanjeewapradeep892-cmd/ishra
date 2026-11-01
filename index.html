@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENSHAPE SHOE LABZ & LOVERS - Grand Opening</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --burgundy: #800020;
+      --rose-red: #D45060;
+      --champagne: #F3E6D5;
+      --gold: #FFD700;
+      --soft-pearl: #FFF9F2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    /* Moving Multi-Color Gradient Background Animation */
+    body {
+      background: linear-gradient(135deg, #4A0012, #800020, #2C000B, #5C0B1E, #D45060);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--soft-pearl);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Ambient Particle Canvas */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Audio Switch */
+    #bg-audio {
+      display: none;
+    }
+
+    .audio-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(40, 0, 10, 0.9);
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      animation: audioPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes audioPulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); transform: scale(1); }
+      50% { box-shadow: 0 0 30px var(--rose-red); transform: scale(1.08); }
+    }
+
+    .audio-toggle:hover {
+      transform: scale(1.15) rotate(15deg);
+    }
+
+    /* Cover Overlay Screen */
+    .cover-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(80, 0, 20, 0.95) 0%, rgba(20, 0, 5, 0.98) 100%);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s ease;
+    }
+
+    .cover-overlay.opened {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .cover-card {
+      background: rgba(35, 0, 8, 0.92);
+      border: 2px solid var(--gold);
+      border-radius: 28px;
+      padding: 45px 30px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      animation: floatCover 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCover {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .open-btn {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--champagne) 50%, var(--rose-red) 100%);
+      color: #300008;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 15px 36px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      letter-spacing: 2px;
+      box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .open-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 8px 35px var(--rose-red);
+    }
+
+    /* Main Super Mix Color Gradient Card with Solid High-Contrast Background */
+    .invitation-container {
+      position: relative;
+      z-index: 10;
+      max-width: 460px;
+      width: 92%;
+      margin: 25px auto;
+      background: rgba(25, 0, 5, 0.94);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(128, 0, 32, 0.7);
+      backdrop-filter: blur(25px);
+      animation: containerEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Animated Glowing Gradient Border */
+    .invitation-container::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(60deg, var(--gold), var(--rose-red), var(--champagne), var(--burgundy), var(--gold));
+      background-size: 300% 300%;
+      z-index: -1;
+      border-radius: 32px;
+      animation: borderGlowAnimation 5s linear infinite;
+    }
+
+    @keyframes borderGlowAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes containerEntrance {
+      0% { opacity: 0; transform: translateY(35px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Header Style with Maximum Contrast */
+    .card-header-hero {
+      padding: 35px 20px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(80, 0, 20, 0.6) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.25);
+    }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      padding: 8px 22px;
+      border-radius: 30px;
+      margin-bottom: 22px;
+      background: rgba(40, 0, 10, 0.9);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      animation: badgeGlow 2.5s infinite alternate;
+    }
+
+    @keyframes badgeGlow {
+      0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+      100% { box-shadow: 0 0 25px var(--gold); }
+    }
+
+    .hero-brand-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+
+    .hero-main-glow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 215, 0, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .hero-location-sub {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--champagne);
+      margin-bottom: 18px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 10px rgba(243, 230, 213, 0.6);
+    }
+
+    .hero-description-box {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #FFFFFF;
+      padding: 0 15px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Central Radar / Animation Graphic Area */
+    .center-visual-area {
+      position: relative;
+      width: 100%;
+      height: 210px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0 20px;
+      overflow: hidden;
+    }
+
+    .radar-ring-outer {
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 215, 0, 0.5);
+      animation: spinSlow 20s linear infinite;
+    }
+
+    .radar-ring-inner {
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(212, 80, 96, 0.8);
+      animation: spinReverse 12s linear infinite;
+    }
+
+    @keyframes spinSlow { 100% { transform: rotate(360deg); } }
+    @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+
+    .center-neon-orb {
+      width: 95px;
+      height: 95px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--rose-red) 50%, var(--burgundy) 100%);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 40px var(--rose-red), inset 0 0 15px rgba(255, 255, 255, 0.8);
+      z-index: 3;
+      animation: orbPulse 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes orbPulse {
+      0% { transform: scale(0.96); box-shadow: 0 0 25px var(--rose-red); }
+      100% { transform: scale(1.05); box-shadow: 0 0 50px var(--gold); }
+    }
+
+    .center-neon-orb i {
+      font-size: 32px;
+      color: #300008;
+      margin-bottom: 2px;
+    }
+
+    .orb-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #300008;
+    }
+
+    .details-content {
+      padding: 0 20px 25px;
+      text-align: center;
+    }
+
+    /* Countdown Display */
+    .timer-section {
+      margin-bottom: 20px;
+      background: rgba(35, 0, 10, 0.95);
+      padding: 15px 10px;
+      border-radius: 16px;
+      border: 1.5px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .timer-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .time-box {
+      background: rgba(20, 0, 5, 0.9);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      border-radius: 10px;
+      padding: 8px 2px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .time-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    .time-lbl {
+      font-size: 8px;
+      color: var(--champagne);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    /* Info List */
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(35, 0, 10, 0.9);
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 215, 0, 0.3);
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+      transform: translateX(5px);
+      background: rgba(60, 0, 18, 0.95);
+      border-color: var(--gold);
+    }
+
+    .info-item i {
+      font-size: 16px;
+      color: var(--gold);
+      width: 20px;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    .info-text .label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9.5px;
+      color: var(--champagne);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    .info-text .val {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Action Buttons */
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 13px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-maps {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--champagne) 50%, var(--rose-red) 100%);
+      color: #300008;
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+      font-weight: 900;
+    }
+
+    .btn-maps:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--rose-red);
+    }
+
+    .btn-call {
+      background: rgba(20, 0, 5, 0.8);
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-call:hover {
+      background: rgba(255, 215, 0, 0.15);
+      transform: translateY(-3px);
+      border-color: var(--rose-red);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <audio id="bg-audio" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="audio-toggle" id="audioBtn" title="Toggle Music">
+    <i class="fas fa-music"></i>
+  </button>
+
+  <!-- Cover Pop-Up Screen -->
+  <div class="cover-overlay" id="coverOverlay">
+    <div class="cover-card">
+      <div style="font-size: 50px; color: var(--gold); margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--rose-red));">
+        <i class="fas fa-shoe-prints"></i>
+      </div>
+      <div class="hero-brand-title" style="font-size: 15px; margin-bottom: 5px;">ENSHAPE SHOE LABZ</div>
+      <div class="hero-location-sub" style="font-size: 11px; margin-bottom: 20px;">AMBALANTOTA</div>
+      <button class="open-btn" onclick="openInvitation()">
+        <i class="fas fa-envelope-open"></i> OPEN INVITATION
+      </button>
+    </div>
+  </div>
+
+  <!-- Main High-Contrast Card -->
+  <div class="invitation-container">
+    <div class="card-header-hero">
+      <div class="hero-badge-tag">
+        <i class="fas fa-trophy" style="color: var(--gold);"></i> GRAND OPENING INVITATION
+      </div>
+      <div class="hero-brand-title">ENSHAPE SHOE LABZ</div>
+      <div class="hero-main-glow">& LOVERS</div>
+      <div class="hero-location-sub">AMBALANTOTA</div>
+      
+      <div class="hero-description-box">
+        ඔබේ පියවරට ඉහළම ප්‍රමිතියේ Sneaker Culture, Custom Labz සහ Trendy Footwear අත්දැකීම් දැන් අම්බලන්තොටින්!
+      </div>
+    </div>
+
+    <!-- Center Tech Glowing Animation Graphic -->
+    <div class="center-visual-area">
+      <div class="radar-ring-outer"></div>
+      <div class="radar-ring-inner"></div>
+      <div class="center-neon-orb">
+        <i class="fas fa-shoe-prints"></i>
+        <span class="orb-label">SHOE LABZ</span>
+      </div>
+    </div>
+
+    <div class="details-content">
+      
+      <!-- Live Countdown -->
+      <div class="timer-section">
+        <div class="timer-title">COUNTDOWN TO OPENING</div>
+        <div class="countdown-grid" id="countdownGrid">
+          <div class="time-box">
+            <span class="time-val" id="days">00</span>
+            <span class="time-lbl">Days</span>
+          </div>
+          <div class="time-box">
+            <span class="time-val" id="hours">00</span>
+            <span class="time-lbl">Hours</span>
+          </div>
+          <div class="time-box">
+            <span class="time-val" id="minutes">00</span>
+            <span class="time-lbl">Mins</span>
+          </div>
+          <div class="time-box">
+            <span class="time-val" id="seconds">00</span>
+            <span class="time-lbl">Secs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Items -->
+      <div class="info-list">
+        <div class="info-item">
+          <i class="far fa-calendar-alt"></i>
+          <div class="info-text">
+            <span class="label">Date & Time</span>
+            <span class="val">2026 නොවැම්බර් 02 සදුදා (පෙ.ව. 10.06 ට)</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="info-text">
+            <span class="label">Location</span>
+            <span class="val">No.26, Main Street, Ambalantota</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="fas fa-phone-alt"></i>
+          <div class="info-text">
+            <span class="label">Hotline</span>
+            <span class="val">076 796 8769</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-group">
+        <a href="https://maps.app.goo.gl/ofPk5YxJnBtjqH9k8?g_st=ic" target="_blank" class="action-btn btn-maps">
+          <i class="fas fa-directions"></i> OPEN IN GOOGLE MAPS
+        </a>
+        <a href="tel:0767968769" class="action-btn btn-call">
+          <i class="fas fa-phone"></i> CALL US NOW
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('bg-audio');
+    const audioBtn = document.getElementById('audioBtn');
+    let isPlaying = false;
+
+    function toggleAudio() {
+      if (isPlaying) {
+        audio.pause();
+        audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        isPlaying = false;
+      } else {
+        audio.play().then(() => {
+          audioBtn.innerHTML = '<i class="fas fa-music"></i>';
+          isPlaying = true;
+        }).catch(e => console.log("Audio play blocked:", e));
+      }
+    }
+
+    audioBtn.addEventListener('click', toggleAudio);
+
+    function openInvitation() {
+      document.getElementById('coverOverlay').classList.add('opened');
+      audio.play().then(() => {
+        isPlaying = true;
+        audioBtn.innerHTML = '<i class="fas fa-music"></i>';
+      }).catch(e => console.log("Audio autoplay blocked"));
+    }
+
+    // Countdown Timer (Nov 2, 2026 10:06:00 AM)
+    const targetDate = new Date('November 2, 2026 10:06:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) return;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(days).padStart(2, '0');
+      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Particle Canvas
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    for (let i = 0; i < 50; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.8 + 0.4,
+        alpha: Math.random() * 0.5 + 0.2,
+        speedY: Math.random() * -0.4 - 0.1,
+        speedX: Math.random() * 0.2 - 0.1
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 215, 0, ${p.alpha})`;
+        ctx.fill();
+
+        p.y += p.speedY;
+        p.x += p.speedX;
+
+        if (p.y < 0) {
+          p.y = canvas.height;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  </script>
+</body>
+</html>
